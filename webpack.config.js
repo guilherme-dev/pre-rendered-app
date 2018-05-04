@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: '/',
     filename: 'build.js'
   },
   module: {
@@ -106,3 +106,21 @@ if (process.env.NODE_ENV === 'production') {
     })
   ])
 }
+
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports.plugins.push(
+  new HtmlWebpackPlugin({
+    template: './index.html',
+    inject: false
+  }),
+);
+
+var PrerenderSpaPlugin = require('prerender-spa-plugin');
+
+module.exports.plugins.push(
+  new PrerenderSpaPlugin(
+    path.join(__dirname, './dist'),
+    [ '/' ]
+  )
+);
